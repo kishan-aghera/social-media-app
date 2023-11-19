@@ -1,6 +1,6 @@
-import BottomBar from "./BottomBar";
-import Topbar from "./Topbar";
-import LeftSidebar from "./LeftSidebar";
-import Loader from "./Loader";
-
-export { Loader, BottomBar, Topbar, LeftSidebar };
+export { default as BottomBar } from "./BottomBar";
+export { default as Topbar } from "./Topbar";
+export { default as LeftSidebar } from "./LeftSidebar";
+export { default as Loader } from "./Loader";
+export { default as FileUploader } from "./FileUploader";
+export { default as PostCard } from "./PostCard";
