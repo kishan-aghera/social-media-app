@@ -1,9 +1,17 @@
-import { Button } from "@/components/ui/button";
+import { BottomBar, LeftSidebar, Topbar } from "@/components/shared";
+import { Outlet } from "react-router-dom";
 
 const RootLayout = () => {
   return (
-    <div className="mx-auto flex min-h-screen items-center justify-center">
-      <Button variant="destructive">Hello World</Button>
+    <div className="w-full md:flex">
+      <Topbar />
+      <LeftSidebar />
+
+      <section className="flex h-full flex-1">
+        <Outlet />
+      </section>
+
+      <BottomBar />
     </div>
   );
 };
