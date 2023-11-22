@@ -1,11 +1,10 @@
 import { Loader, PostStats } from "@/components/shared";
 import { Button } from "@/components/ui/button";
+import { PROFILE_PATH, UPDATE_POST_PATH } from "@/constants/routes";
 import { useUserContext } from "@/context/AuthContext";
-import {
-  useDeletePost,
-  useGetPostById,
-} from "@/lib/react-query/queries_and_mutations";
-import { multiFormatDateString } from "@/lib/utils";
+import { useDeletePost } from "@/lib/react-query/mutations/posts";
+import { useGetPostById } from "@/lib/react-query/queries/posts";
+import { getTags, getUrl, multiFormatDateString } from "@/lib/utils";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
 const PostDetails = () => {
@@ -15,6 +14,8 @@ const PostDetails = () => {
   const { user } = useUserContext();
 
   const { mutate: deletePost } = useDeletePost();
+
+  const tags = getTags(post?.tags);
 
   const handleDeletePost = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
@@ -55,7 +56,7 @@ const PostDetails = () => {
           <div className="post_details-info">
             <div className="flex-between w-full">
               <Link
-                to={`/profile/${post?.creator.$id}`}
+                to={getUrl(PROFILE_PATH, ":id", post?.creator.$id)}
                 className="flex items-center gap-3"
               >
                 <img
@@ -84,7 +85,7 @@ const PostDetails = () => {
 
               {user.id === post?.creator.$id && (
                 <div className="flex-center">
-                  <Link to={`/update-post/${post?.$id}`}>
+                  <Link to={getUrl(UPDATE_POST_PATH, ":id", post?.$id)}>
                     <img
                       src={"/assets/icons/edit.svg"}
                       alt="edit"
@@ -110,14 +111,15 @@ const PostDetails = () => {
             <div className="small-medium lg:base-regular flex w-full flex-1 flex-col">
               <p>{post?.caption}</p>
               <ul className="mt-2 flex gap-1">
-                {post?.tags.map((tag: string, index: string) => (
-                  <li
-                    key={`${tag}${index}`}
-                    className="small-regular text-light-3"
-                  >
-                    #{tag}
-                  </li>
-                ))}
+                {tags.length > 0 && (
+                  <ul className="mt-2 flex gap-1">
+                    {tags.map((tag: string) => (
+                      <li key={tag} className="text-light-3">
+                        #{tag}
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </ul>
             </div>
 

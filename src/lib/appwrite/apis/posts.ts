@@ -1,111 +1,7 @@
-import { INewPost, INewUser, INewUserSession, IUpdatePost } from "@/types";
-import { account, appwriteConfig, avatars, databases, storage } from "./config";
+import { INewPost, IUpdatePost } from "@/types/posts";
+import { deleteFile, getFilePreview, uploadFile } from "./file_upload";
+import { appwriteConfig, databases } from "../config";
 import { ID, Query } from "appwrite";
-
-export async function createUserAccount(user: INewUser) {
-  try {
-    const newAccount = await account.create(
-      ID.unique(),
-      user.email,
-      user.password,
-      user.name,
-    );
-
-    if (!newAccount) {
-      throw Error;
-    }
-
-    const avatarUrl = avatars.getInitials(user.name);
-
-    const newUser = await saveUserToDB({
-      accountId: newAccount.$id,
-      email: newAccount.email,
-      name: newAccount.name,
-      imageUrl: avatarUrl,
-      username: user.username,
-    });
-
-    return newUser;
-  } catch (error) {
-    console.log(error);
-    return error;
-  }
-}
-
-export async function saveUserToDB(user: {
-  accountId: string;
-  email: string;
-  name: string;
-  imageUrl: URL;
-  username?: string;
-}) {
-  try {
-    const newUser = await databases.createDocument(
-      appwriteConfig.databaseId,
-      appwriteConfig.userCollectionId,
-      ID.unique(),
-      user,
-    );
-
-    return newUser;
-  } catch (error) {
-    console.log(error);
-  }
-}
-
-export async function signInAccount(user: INewUserSession) {
-  try {
-    const session = await account.createEmailSession(user.email, user.password);
-    return session;
-  } catch (error) {
-    console.log(error);
-    return error;
-  }
-}
-
-export async function getAccount() {
-  try {
-    const currentAccount = await account.get();
-    return currentAccount;
-  } catch (error) {
-    console.log(error);
-  }
-}
-
-export async function getCurrentUser() {
-  try {
-    const currentAccount = await getAccount();
-
-    if (!currentAccount) {
-      throw Error;
-    }
-
-    const currentUser = await databases.listDocuments(
-      appwriteConfig.databaseId,
-      appwriteConfig.userCollectionId,
-      [Query.equal("accountId", currentAccount.$id)],
-    );
-
-    if (!currentUser) {
-      throw Error;
-    }
-
-    return currentUser.documents[0];
-  } catch (error) {
-    console.log(error);
-    return null;
-  }
-}
-
-export async function signOutAccount() {
-  try {
-    const session = await account.deleteSession("current");
-
-    return session;
-  } catch (error) {
-    console.log(error);
-  }
-}
 
 export async function createPost(post: INewPost) {
   try {
@@ -124,7 +20,7 @@ export async function createPost(post: INewPost) {
     }
 
     // Convert tags in an array
-    const tags = post.tags?.replace(/ /g, "").split(", ") || [];
+    const tags = post.tags?.replace(/ /g, "").split(",") || [];
 
     // Save post to DB
     const newPost = await databases.createDocument(
@@ -147,47 +43,6 @@ export async function createPost(post: INewPost) {
     }
 
     return newPost;
-  } catch (error) {
-    console.log(error);
-  }
-}
-
-export async function uploadFile(file: File) {
-  try {
-    const uploadedFile = await storage.createFile(
-      appwriteConfig.storageId,
-      ID.unique(),
-      file,
-    );
-
-    return uploadedFile;
-  } catch (error) {
-    console.log(error);
-  }
-}
-
-export function getFilePreview(fileId: string) {
-  try {
-    const fileUrl = storage.getFilePreview(
-      appwriteConfig.storageId,
-      fileId,
-      2000,
-      2000,
-      "top",
-      100,
-    );
-
-    return fileUrl;
-  } catch (error) {
-    console.log(error);
-  }
-}
-
-export async function deleteFile(fileId: string) {
-  try {
-    await storage.deleteFile(appwriteConfig.storageId, fileId);
-
-    return { status: "ok" };
   } catch (error) {
     console.log(error);
   }
@@ -303,7 +158,7 @@ export async function updatePost(post: IUpdatePost) {
     }
 
     // Convert tags in an array
-    const tags = post.tags?.replace(/ /g, "").split(", ") || [];
+    const tags = post.tags?.replace(/ /g, "").split(",") || [];
 
     // Save post to DB
     const updatedPost = await databases.updateDocument(
@@ -350,7 +205,7 @@ export async function deletePost(postId: string, imageId: string) {
 
 export async function getInfinitePosts({ pageParam }: { pageParam: number }) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const queries: any[] = [Query.orderDesc("$updatedAt"), Query.limit(10)];
+  const queries: any[] = [Query.orderDesc("$updatedAt"), Query.limit(9)];
 
   if (pageParam) {
     queries.push(Query.cursorAfter(pageParam.toString()));
@@ -376,9 +231,7 @@ export async function searchPosts(searchTerm: string) {
     const posts = await databases.listDocuments(
       appwriteConfig.databaseId,
       appwriteConfig.postCollectionId,
-      [
-        Query.search("caption", searchTerm),
-      ],
+      [Query.search("caption", searchTerm)],
     );
 
     if (!posts) throw Error;

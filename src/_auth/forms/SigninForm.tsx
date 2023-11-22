@@ -18,8 +18,9 @@ import { useToast } from "@/components/ui/use-toast";
 
 import { useUserContext } from "@/context/AuthContext";
 import { SignInSchema } from "@/lib/schema";
-import { useSignInAccount } from "@/lib/react-query/queries_and_mutations";
+import { useSignInAccount } from "@/lib/react-query/mutations/auth";
 import { useEffect } from "react";
+import { ROOT_PATH, SIGN_UP_PATH } from "@/constants/routes";
 
 const SigninForm = () => {
   const { toast } = useToast();
@@ -43,7 +44,7 @@ const SigninForm = () => {
       const isLoggedIn = await checkAuthUser();
 
       if (isLoggedIn) {
-        navigate("/");
+        navigate(ROOT_PATH);
       }
     };
 
@@ -67,7 +68,7 @@ const SigninForm = () => {
       if (isLoggedIn) {
         form.reset();
 
-        navigate("/");
+        navigate(ROOT_PATH);
       } else {
         toast({ title: "Login failed. Please try again." });
 
@@ -145,7 +146,7 @@ const SigninForm = () => {
           <p className="text-small-regular mt-2 text-center text-light-2">
             Don't have an account?
             <Link
-              to="/sign-up"
+              to={SIGN_UP_PATH}
               className="text-small-semibold ml-1 text-primary-500"
             >
               Sign up

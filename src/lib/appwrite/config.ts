@@ -7,7 +7,7 @@ import {
   APPWRITE_STORAGE_ID,
   APPWRITE_URL,
   APPWRITE_USERS_COLLECTION_ID,
-} from "../../constants";
+} from "../../constants/env_variables";
 
 export const appwriteConfig = {
   projectId: APPWRITE_PROJECT_ID,

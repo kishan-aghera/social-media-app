@@ -21,8 +21,9 @@ import { SignUpSchema } from "@/lib/schema";
 import {
   useCreateUserAccount,
   useSignInAccount,
-} from "@/lib/react-query/queries_and_mutations";
+} from "@/lib/react-query/mutations/auth";
 import { useEffect } from "react";
+import { ROOT_PATH, SIGN_IN_PATH } from "@/constants/routes";
 
 const SignupForm = () => {
   const { toast } = useToast();
@@ -50,7 +51,7 @@ const SignupForm = () => {
       const isLoggedIn = await checkAuthUser();
 
       if (isLoggedIn) {
-        navigate("/");
+        navigate(ROOT_PATH);
       }
     };
 
@@ -79,7 +80,7 @@ const SignupForm = () => {
           title: "Something went wrong. Please log in to your new account",
         });
 
-        navigate("/sign-in");
+        navigate(SIGN_IN_PATH);
 
         return;
       }
@@ -89,7 +90,7 @@ const SignupForm = () => {
       if (isLoggedIn) {
         form.reset();
 
-        navigate("/");
+        navigate(ROOT_PATH);
       } else {
         toast({ title: "Login failed. Please try again." });
 
@@ -200,7 +201,7 @@ const SignupForm = () => {
           <p className="text-small-regular mt-2 text-center text-light-2">
             Already have an account?
             <Link
-              to="/sign-in"
+              to={SIGN_IN_PATH}
               className="text-small-semibold ml-1 text-primary-500"
             >
               Log in

@@ -1,9 +1,9 @@
 import {
   useDeleteSavedPost,
-  useGetCurrentUser,
   useLikePost,
   useSavePost,
-} from "@/lib/react-query/queries_and_mutations";
+} from "@/lib/react-query/mutations/posts";
+import { useGetCurrentUser } from "@/lib/react-query/queries/users";
 import { checkIsLiked } from "@/lib/utils";
 import { Models } from "appwrite";
 import { useEffect, useState } from "react";
@@ -94,7 +94,7 @@ const PostStats = ({ post, userId }: PostStatsProps) => {
         ) : (
           <img
             src={isSaved ? "/assets/icons/saved.svg" : "/assets/icons/save.svg"}
-            alt="like"
+            alt="save"
             width={20}
             height={20}
             onClick={handleSavePost}

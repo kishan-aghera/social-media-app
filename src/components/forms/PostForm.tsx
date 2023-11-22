@@ -17,13 +17,12 @@ import { FileUploader } from "../shared";
 import { PostSchema } from "@/lib/schema";
 
 import { Models } from "appwrite";
-import {
-  useCreatePost,
-  useUpdatePost,
-} from "@/lib/react-query/queries_and_mutations";
+import { useCreatePost, useUpdatePost } from "@/lib/react-query/mutations/posts";
 import { useUserContext } from "@/context/AuthContext";
 import { useToast } from "../ui/use-toast";
 import { useNavigate } from "react-router-dom";
+import { POST_DETAILS_PATH, ROOT_PATH } from "@/constants/routes";
+import { getUrl } from "@/lib/utils";
 
 type PostFormProps = {
   post?: Models.Document;
@@ -67,7 +66,7 @@ const PostForm = ({ post, action }: PostFormProps) => {
         });
       }
 
-      return navigate(`/posts/${post.$id}`);
+      return navigate(getUrl(POST_DETAILS_PATH, ":id", post.$id));
     }
 
     const newPost = await createPost({
@@ -83,7 +82,7 @@ const PostForm = ({ post, action }: PostFormProps) => {
       return;
     }
 
-    navigate("/");
+    navigate(ROOT_PATH);
   };
 
   return (

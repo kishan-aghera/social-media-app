@@ -1,8 +1,9 @@
 import { useUserContext } from "@/context/AuthContext";
-import { multiFormatDateString } from "@/lib/utils";
+import { getTags, getUrl, multiFormatDateString } from "@/lib/utils";
 import { Models } from "appwrite";
 import { Link } from "react-router-dom";
 import { PostStats } from ".";
+import { POST_DETAILS_PATH, PROFILE_PATH, UPDATE_POST_PATH } from "@/constants/routes";
 
 type PostCardProps = {
   post: Models.Document;
@@ -13,11 +14,13 @@ const PostCard = ({ post }: PostCardProps) => {
 
   if (!post.creator) return;
 
+  const tags = getTags(post.tags);
+
   return (
     <div className="post-card">
       <div className="flex-between">
         <div className="flex items-center gap-3">
-          <Link to={`/profile/${post.creator.$id}`}>
+          <Link to={getUrl(PROFILE_PATH, ":id", post.creator.$id)}>
             <img
               src={
                 post?.creator?.imageUrl ||
@@ -45,7 +48,7 @@ const PostCard = ({ post }: PostCardProps) => {
         </div>
 
         {user.id === post.creator.$id && (
-          <Link to={`/update-post/${post.$id}`}>
+          <Link to={getUrl(UPDATE_POST_PATH, ":id", post.$id)}>
             <img
               src="/assets/icons/edit.svg"
               alt="edit"
@@ -56,16 +59,18 @@ const PostCard = ({ post }: PostCardProps) => {
         )}
       </div>
 
-      <Link to={`/posts/${post.$id}`}>
+      <Link to={getUrl(POST_DETAILS_PATH, ":id", post.$id)}>
         <div className="small-medium lg:base-medium py-5">
           <p>{post.caption}</p>
-          <ul className="mt-2 flex gap-1">
-            {post.tags.map((tag: string) => (
-              <li key={tag} className="text-light-3">
-                #{tag}
-              </li>
-            ))}
-          </ul>
+          {tags.length > 0 && (
+            <ul className="mt-2 flex gap-1">
+              {tags.map((tag: string) => (
+                <li key={tag} className="text-light-3">
+                  #{tag}
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
 
         <img
