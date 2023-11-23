@@ -1,7 +1,7 @@
 import { INewPost, IUpdatePost } from "@/types/posts";
 import { deleteFile, getFilePreview, uploadFile } from "./file_upload";
 import { appwriteConfig, databases } from "../config";
-import { ID, Query } from "appwrite";
+import { ID, Models, Query } from "appwrite";
 
 export async function createPost(post: INewPost) {
   try {
@@ -237,6 +237,31 @@ export async function searchPosts(searchTerm: string) {
     if (!posts) throw Error;
 
     return posts;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function getSavedPosts(userId: string) {
+  try {
+    const currentSavePostsArray = await databases.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.saveCollectionId,
+      [Query.equal("user", userId), Query.orderDesc("$updatedAt")],
+    );
+
+    const savedPosts = currentSavePostsArray.documents.map(
+      (savePost: Models.Document) => {
+        return {
+          ...savePost.post,
+          creator: {
+            imageUrl: savePost.post.creator.imageUrl,
+          },
+        };
+      },
+    );
+
+    return savedPosts;
   } catch (error) {
     console.log(error);
   }
