@@ -55,3 +55,16 @@ export const multiFormatDateString = (timestamp: string = ""): string => {
 export const checkIsLiked = (likeList: string[], userId: string) => {
   return likeList.includes(userId);
 };
+
+export const getTags = (tags: string[]) => {
+  if (tags === undefined) return [];
+
+  if (tags[0] === "") {
+    tags.shift();
+  }
+  return tags;
+};
+
+export const getUrl = (path: string, identifier: string, id = "") => {
+  return path.replace(identifier, id);
+};

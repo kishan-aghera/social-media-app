@@ -1,9 +1,6 @@
 import { GridPostList, Loader, SearchResults } from "@/components/shared";
 import { Input } from "@/components/ui/input";
-import {
-  useGetPosts,
-  useSearchPosts,
-} from "@/lib/react-query/queries_and_mutations";
+import { useGetPosts, useSearchPosts } from "@/lib/react-query/queries/posts";
 import { useDeferredValue, useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 

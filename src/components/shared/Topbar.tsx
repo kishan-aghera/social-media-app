@@ -1,8 +1,10 @@
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
-import { useSignOutAccount } from "@/lib/react-query/queries_and_mutations";
+import { useSignOutAccount } from "@/lib/react-query/mutations/auth";
 import { useEffect } from "react";
 import { useUserContext } from "@/context/AuthContext";
+import { PROFILE_PATH, ROOT_PATH } from "@/constants/routes";
+import { getUrl } from "@/lib/utils";
 
 const Topbar = () => {
   const navigate = useNavigate();
@@ -17,7 +19,7 @@ const Topbar = () => {
   return (
     <section className="topbar">
       <div className="flex-between px-5 py-4">
-        <Link to="/" className="flex items-center gap-3">
+        <Link to={ROOT_PATH} className="flex items-center gap-3">
           <img
             src="/assets/images/logo.svg"
             alt="logo"
@@ -35,7 +37,7 @@ const Topbar = () => {
             <img src="/assets/icons/logout.svg" alt="logout" />
           </Button>
 
-          <Link to={`/profile/${user.id}`} className="flex-center gap-3">
+          <Link to={getUrl(PROFILE_PATH, ":id", user.id)} className="flex-center gap-3">
             <img
               src={user.imageUrl || "/assets/icons/profile-placeholder.svg"}
               alt="profile logo"

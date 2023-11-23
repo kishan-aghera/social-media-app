@@ -1,5 +1,5 @@
 import { Loader, PostCard } from "@/components/shared";
-import { useGetRecentPosts } from "@/lib/react-query/queries_and_mutations";
+import { useGetRecentPosts } from "@/lib/react-query/queries/posts";
 import { Models } from "appwrite";
 
 const Home = () => {
