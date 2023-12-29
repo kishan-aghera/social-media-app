@@ -55,16 +55,6 @@ const Explore = () => {
 
       <div className="flex-between mb-7 mt-16 w-full max-w-5xl">
         <h3 className="body-bold md:h3-bold">Popular Today</h3>
-
-        <div className="flex-center cursor-pointer gap-3 rounded-xl bg-dark-3 px-4 py-2">
-          <span className="small-medium md:base-medium text-light-2">All</span>
-          <img
-            src="/assets/icons/filter.svg"
-            width={20}
-            height={20}
-            alt="filter"
-          />
-        </div>
       </div>
 
       <div className="flex w-full max-w-5xl flex-wrap gap-9">
@@ -82,7 +72,11 @@ const Explore = () => {
         )}
       </div>
 
-      {hasNextPage && !searchValue && <div ref={ref} className="mt-10"></div>}
+      {hasNextPage && !searchValue && (
+        <div ref={ref} className="mt-10">
+          <Loader />
+        </div>
+      )}
     </div>
   );
 };
