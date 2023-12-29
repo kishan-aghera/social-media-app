@@ -38,3 +38,22 @@ export const PostSchema = z.object({
     }),
   tags: z.string().optional(),
 });
+
+export const ProfileSchema = z.object({
+  name: z.string().max(2200, {
+    message: "Name must be at most 2200 characters",
+  }),
+  username: z
+    .string()
+    .min(6, {
+      message: "Username must be at least 6 characters",
+    })
+    .max(2200, {
+      message: "Username must be at most 2200 characters",
+    }),
+  email: z.string().email(),
+  bio: z.string().max(2200, {
+    message: "Bio must be at most 2200 characters",
+  }).optional(),
+  file: z.custom<File[]>(),
+});

@@ -1,5 +1,6 @@
 export type IUpdateUser = {
   userId: string;
+  username: string;
   name: string;
   bio: string;
   imageId: string;
@@ -13,5 +14,6 @@ export type IUser = {
   username: string;
   email: string;
   imageUrl: string;
+  imageId: string;
   bio: string;
 };
