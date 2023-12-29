@@ -106,3 +106,18 @@ export async function signOutAccount() {
     console.log(error);
   }
 }
+
+export async function getUserById(id: string) {
+  try {
+    const user = await databases.getDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.userCollectionId,
+      id,
+    );
+
+    return user;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+}

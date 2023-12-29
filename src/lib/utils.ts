@@ -66,5 +66,8 @@ export const getTags = (tags: string[]) => {
 };
 
 export const getUrl = (path: string, identifier: string, id = "") => {
-  return path.replace(identifier, id);
+  // Removing wild card symbol /* if any
+  const removedWildSymbol = path.replace("/*", "");
+
+  return removedWildSymbol.replace(identifier, id);
 };
