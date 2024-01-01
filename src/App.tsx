@@ -41,6 +41,7 @@ const App = () => {
         {/* Private Routes */}
         <Route element={<RootLayout />}>
           <Route index element={<Home />} />
+
           {/* User Routes */}
           <Route path={ALL_USERS_PATH} element={<AllUsers />} />
           <Route path={PROFILE_PATH} element={<Profile />} />

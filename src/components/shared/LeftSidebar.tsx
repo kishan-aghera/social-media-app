@@ -30,7 +30,10 @@ const LeftSidebar = () => {
           />
         </Link>
 
-        <Link to={getUrl(PROFILE_PATH, ":id", user.id)} className="flex items-center gap-3">
+        <Link
+          to={getUrl(PROFILE_PATH, ":id", user.id)}
+          className="flex items-center gap-3"
+        >
           <img
             src={user.imageUrl || "/assets/icons/profile-placeholder.svg"}
             alt="profile logo"

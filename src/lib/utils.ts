@@ -1,13 +1,13 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
-export function cn(...inputs: ClassValue[]) {
+export const cn = (...inputs: ClassValue[]) => {
   return twMerge(clsx(inputs));
-}
+};
 
 export const convertFileToUrl = (file: File) => URL.createObjectURL(file);
 
-export function formatDateString(dateString: string) {
+export const formatDateString = (dateString: string): string => {
   const options: Intl.DateTimeFormatOptions = {
     year: "numeric",
     month: "short",
@@ -23,7 +23,7 @@ export function formatDateString(dateString: string) {
   });
 
   return `${formattedDate} at ${time}`;
-}
+};
 
 export const multiFormatDateString = (timestamp: string = ""): string => {
   const timestampNum = Math.round(new Date(timestamp).getTime() / 1000);
@@ -52,7 +52,7 @@ export const multiFormatDateString = (timestamp: string = ""): string => {
   }
 };
 
-export const checkIsLiked = (likeList: string[], userId: string) => {
+export const checkIsLiked = (likeList: string[], userId: string): boolean => {
   return likeList.includes(userId);
 };
 
@@ -65,7 +65,7 @@ export const getTags = (tags: string[]) => {
   return tags;
 };
 
-export const getUrl = (path: string, identifier: string, id = "") => {
+export const getUrl = (path: string, identifier = ":id", id = ""): string => {
   // Removing wild card symbol /* if any
   const removedWildSymbol = path.replace("/*", "");
 

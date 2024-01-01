@@ -17,7 +17,10 @@ import { FileUploader } from "../shared";
 import { PostSchema } from "@/lib/schema";
 
 import { Models } from "appwrite";
-import { useCreatePost, useUpdatePost } from "@/lib/react-query/mutations/posts";
+import {
+  useCreatePost,
+  useUpdatePost,
+} from "@/lib/react-query/mutations/posts";
 import { useUserContext } from "@/context/AuthContext";
 import { useToast } from "../ui/use-toast";
 import { useNavigate } from "react-router-dom";

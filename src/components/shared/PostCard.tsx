@@ -3,7 +3,11 @@ import { getTags, getUrl, multiFormatDateString } from "@/lib/utils";
 import { Models } from "appwrite";
 import { Link } from "react-router-dom";
 import { PostStats } from ".";
-import { POST_DETAILS_PATH, PROFILE_PATH, UPDATE_POST_PATH } from "@/constants/routes";
+import {
+  POST_DETAILS_PATH,
+  PROFILE_PATH,
+  UPDATE_POST_PATH,
+} from "@/constants/routes";
 
 type PostCardProps = {
   post: Models.Document;

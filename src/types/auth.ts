@@ -10,7 +10,7 @@ export type INewUser = {
 export type INewUserSession = {
   email: string;
   password: string;
-}
+};
 
 export type IAuthContext = {
   user: IUser;
