@@ -52,8 +52,11 @@ export const ProfileSchema = z.object({
       message: "Username must be at most 2200 characters",
     }),
   email: z.string().email(),
-  bio: z.string().max(2200, {
-    message: "Bio must be at most 2200 characters",
-  }).optional(),
+  bio: z
+    .string()
+    .max(2200, {
+      message: "Bio must be at most 2200 characters",
+    })
+    .optional(),
   file: z.custom<File[]>(),
 });
